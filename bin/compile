@@ -30,15 +30,15 @@ semver_range=$(cat $build_dir/package.json | $bp_dir/vendor/jq -r .engines.node)
 status "Required node version: $semver_range"
 
 # Resolve node version using semver.io
-node_version=$(curl --silent --get --data-urlencode "range=${semver_range}" https://semver.io/node/resolve)
-node_version_status_code=$(curl -s -o /dev/null -I -w "%{http_code}" --silent --get --data-urlencode "range=${semver_range}" https://semver.io/node/resolve)
+#node_version=$(curl --silent --get --data-urlencode "range=${semver_range}" https://semver.io/node/resolve)
+#node_version_status_code=$(curl -s -o /dev/null -I -w "%{http_code}" --silent --get --data-urlencode "range=${semver_range}" https://semver.io/node/resolve)
 
-status "Semver.io http call status code: $node_version_status_code"
+#status "Semver.io http call status code: $node_version_status_code"
 
-if [ "$node_version_status_code" == "503" ]; then
-  status "Semver.io not available (503 http code), using node in files: $semver_range"
+#if [ "$node_version_status_code" == "503" ]; then
+#  status "Semver.io not available (503 http code), using node in files: $semver_range"
   node_version=$(echo "$semver_range" | sed 's/=//g' | sed 's/^ *//g')
-fi
+#
 
 # Recommend using semver ranges in a safe manner
 if [ "$semver_range" == "null" ]; then
@@ -77,17 +77,17 @@ npm_engine=$(cat $build_dir/package.json | $bp_dir/vendor/jq -r .engines.npm)
 if [ "$npm_engine" != "" ]; then
   if ! [[ "$npm_engine" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     status "Resolving npm version ${npm_engine} via semver.io..."
-    npm_engine_semver=$(curl --silent --get --data-urlencode "range=${npm_engine}" https://semver.herokuapp.com/npm/resolve)
-    npm_engine_status_code=$(curl -s -o /dev/null -I -w "%{http_code}" --silent --get --data-urlencode "range=${npm_engine}" https://semver.herokuapp.com/npm/resolve)
+    #npm_engine_semver=$(curl --silent --get --data-urlencode "range=${npm_engine}" https://semver.herokuapp.com/npm/resolve)
+    #npm_engine_status_code=$(curl -s -o /dev/null -I -w "%{http_code}" --silent --get --data-urlencode "range=${npm_engine}" https://semver.herokuapp.com/npm/resolve)
 
-    status "Semver.io http call status code: $npm_engine_status_code"
+    #status "Semver.io http call status code: $npm_engine_status_code"
 
-  if [ "$npm_engine_status_code" == "503" ]; then
-    status "Semver.io not available (503 http code), using npm in files: $npm_engine"
+  #if [ "$npm_engine_status_code" == "503" ]; then
+   # status "Semver.io not available (503 http code), using npm in files: $npm_engine"
     npm_engine=$(echo "$npm_engine" | sed 's/=//g' | sed 's/^ *//g')
-  else
-    npm_engine=$(npm_engine_semver)
-  fi
+  #else
+  #  npm_engine=$(npm_engine_semver)
+  #fi
     
   fi
   if [[ `npm --version` == "$npm_engine" ]]; then
