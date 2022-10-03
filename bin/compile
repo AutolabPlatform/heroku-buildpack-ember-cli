@@ -27,6 +27,8 @@ trap cat_npm_debug_log ERR
 # Look in package.json's engines.node field for a semver range
 semver_range=$(cat $build_dir/package.json | $bp_dir/vendor/jq -r .engines.node)
 
+status "Required node version: $semver_range"
+
 # Resolve node version using semver.io
 node_version=$(curl --silent --get --data-urlencode "range=${semver_range}" https://semver.io/node/resolve)
 node_version_status_code=$(curl -s -o /dev/null -I -w "%{http_code}" --silent --get --data-urlencode "range=${semver_range}" https://semver.io/node/resolve)
