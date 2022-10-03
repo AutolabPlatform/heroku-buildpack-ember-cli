@@ -84,9 +84,9 @@ if [ "$npm_engine" != "" ]; then
 
   if [ "$npm_engine_status_code" == "503" ]; then
     status "Semver.io not available (503 http code), using npm in files: $npm_engine"
-    npm_engine = $(echo "$npm_engine" | sed 's/=//g' | sed 's/^ *//g')
+    npm_engine=$(echo "$npm_engine" | sed 's/=//g' | sed 's/^ *//g')
   else
-    npm_engine = $(npm_engine_semver)
+    npm_engine=$(npm_engine_semver)
   fi
     
   fi
