@@ -36,8 +36,8 @@ node_version_status_code=$(curl -s -o /dev/null -I -w "%{http_code}" --silent --
 status "Semver.io http call status code: $node_version_status_code"
 
 if [ "$node_version_status_code" == "503" ]; then
-  status "Semver.io not available (503 http code), using node: $semver_range"
-  node_version="$semver_range"
+  status "Semver.io not available (503 http code), using node in files: $semver_range"
+  node_version=$(echo "$semver_range" | sed 's/=//g' | sed 's/^ *//g')
 fi
 
 # Recommend using semver ranges in a safe manner
