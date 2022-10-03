@@ -33,7 +33,7 @@ status "Required node version: $semver_range"
 node_version=$(curl --silent --get --data-urlencode "range=${semver_range}" https://semver.io/node/resolve)
 node_version_status_code=$(curl -s -o /dev/null -I -w "%{http_code}" --silent --get --data-urlencode "range=${semver_range}" https://semver.io/node/resolve)
 
-if ["$node_version_status_code" == "503\%"]; then
+if [ "$node_version_status_code" == "503\%" ]; then
   status "Semver.io not available (503 http code), using node: $semver_range"
   node_version=semver_range
 fi
